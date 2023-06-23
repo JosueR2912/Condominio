@@ -1,0 +1,86 @@
+<form *ngIf="form" [formGroup]="form"  class="d-flex flex-column w-100 p-4 content--standard">
+    <div class="d-flex align-items-center w-100 mb-3">
+        <h1 *ngIf="!id" class="heading--desktop04">
+            Crear Nuevo Pago
+        </h1>
+        <h1 *ngIf="id" class="heading--desktop04">
+            Actualizar Pago
+        </h1>
+        <div class="ms-auto">
+            <button class="btn btn--null" (click)="list()">
+                <i class="fa fa-list me-2"></i>
+                Lista
+            </button>
+        </div>
+    </div>
+    <div class="d-flex w-100">
+        <div class="d-flex flex-column pe-2 py-3 col-md-4">
+            <select [(ngModel)]="body.tipo" id="tipo" name="tipo" formControlName="tipo" class="input--standard" name="tipo" id="tipo">
+                <option [ngValue]="null">Seleccione Tipo de Pago</option>
+                <option value="Efectivo">Efectivo</option>
+                <option value="Transferencia">Transferencia</option>
+            </select>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('tipo')">
+                {{hasError('tipo')}}
+            </span>
+        </div>
+        <div class="d-flex flex-column ps-2 pe-2 py-3 col-md-4">
+            <span class="p-float-label w-100">
+                <input autocomplete="off" required formControlName="monto_bs" [(ngModel)]="body.monto_bs" [readonly]="!editable" id="monto_bs" class="input--standard w-100" type="number"  min="0"  pInputText> 
+                <label for="monto_bs">Monto(BS)<small class="required ms-1">*</small></label>
+            </span>
+        </div>
+        <div class="d-flex flex-column ps-2 py-3 col-md-4">
+            <span class="p-float-label w-100">
+                <input autocomplete="off" required formControlName="monto_dollar" [(ngModel)]="body.monto_dollar" [readonly]="!editable" id="monto_dollar" class="input--standard w-100" type="number"  min="0"  pInputText> 
+                <label for="monto_dollar">Monto($)<small class="required ms-1">*</small></label>
+            </span>
+        </div>
+    </div>
+    <div class="d-flex w-100">
+        <div class="d-flex flex-column pe-2 py-3 col-md-4">
+            <span class="p-float-label w-100">
+                <input autocomplete="off" required formControlName="fecha" [(ngModel)]="body.fecha" [readonly]="!editable" id="fecha" class="input--standard w-100" type="date"  pInputText> 
+                <label for="fecha"><small class="required ms-1"></small></label>
+            </span>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('fecha')">
+                {{hasError('fecha')}}
+            </span>
+        </div>
+        <div class="d-flex flex-column ps-2 pe-2 py-3 col-md-4">
+            <span class="p-float-label w-100">
+                <input autocomplete="off" formControlName="concepto" [(ngModel)]="body.concepto" [readonly]="!editable" id="concepto" class="input--standard w-100" type="text" pInputText> 
+                <label for="concepto">Concepto<small class="required ms-1">*</small></label>
+            </span>
+        </div>
+        <div class="d-flex flex-column pe-2 py-3 col columna w-50">
+            <select [(ngModel)]="body.id_public_habitante" id="id_public_habitante" name="id_public_habitante" formControlName="id_public_habitante" class="input--standard" name="id_public_habitante" id="id_public_habitante">
+                <option [ngValue]="null">Seleccione Habitante</option>
+                <option [ngValue]="item.id" *ngFor="let item of habitantes">{{item.nombre}} {{item.apellido}}</option>
+            </select>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('id_public_habitante')">
+                {{hasError('id_public_habitante')}}
+            </span>
+        </div>
+    </div>
+    <div class="d-flex w-100">
+        <div class="d-flex flex-column pe-2 py-3 col columna w-50">
+            <select [(ngModel)]="body.id_public_apartamento" id="id_public_apartamento" name="id_public_apartamento" formControlName="id_public_apartamento" class="input--standard" name="id_public_apartamento" id="id_public_apartamento">
+                <option [ngValue]="null">Seleccione apartamento</option>
+                <option [ngValue]="item.id" *ngFor="let item of apartamentos">{{getApartamentoNombre(item)}} </option>
+            </select>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('id_public_apartamento')">
+                {{hasError('id_public_apartamento')}}
+            </span>
+        </div>
+    </div>
+    <div class="d-flex w-100 mt-4">
+        <div class="ms-auto"></div>
+        <div class="ms-md-2">
+            <button (click)="submit()" class="btn btn--standard">
+                <i class="fa fa-save me-2"></i>
+                Save
+            </button>
+        </div>
+    </div>
+</form>

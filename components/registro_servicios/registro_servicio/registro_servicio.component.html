@@ -1,0 +1,91 @@
+<form *ngIf="form" [formGroup]="form"  class="d-flex flex-column w-100 p-4 content--standard">
+    <div class="d-flex align-items-center w-100 mb-3">
+        <h1 *ngIf="!id" class="heading--desktop04">
+            Crear Nuevo Servicio
+        </h1>
+        <h1 *ngIf="id" class="heading--desktop04">
+            Actualizar Servicio
+        </h1>
+        <div class="ms-auto">
+            <button class="btn btn--null" (click)="list()">
+                <i class="fa fa-list me-2"></i>
+                Lista
+            </button>
+        </div>
+    </div>
+    <div class="d-flex w-100">
+        <div class="d-flex flex-column pe-2 py-3 col-md-4">
+            <span class="p-float-label w-100">
+                <input autocomplete="off" required formControlName="nombre" [(ngModel)]="body.nombre" [readonly]="!editable" id="nombre" class="input--standard w-100" type="text" pInputText> 
+                <label for="nombre">Nombre<small class="required ms-1">*</small></label>
+            </span>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('nombre')">
+                {{hasError('nombre')}}
+            </span>
+        </div>
+        <div class="d-flex flex-column ps-2 pe-2 py-3 col-md-4">
+            <span class="p-float-label w-100">
+                <input autocomplete="off" required formControlName="monto" [(ngModel)]="body.monto" [readonly]="!editable" id="monto" class="input--standard w-100" type="number"  min="0" pInputText> 
+                <label for="monto">Monto($)<small class="required ms-1">*</small></label>
+            </span>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('monto')">
+                {{hasError('monto')}}
+            </span>
+        </div>
+        <div class="d-flex flex-column ps-2 py-3 col-md-4">
+            <span class="p-float-label w-100">
+                <input autocomplete="off" required formControlName="fecha" [(ngModel)]="body.fecha" [readonly]="!editable" id="fecha" class="input--standard w-100" type="date" pInputText> 
+                <label for="fecha"><small class="required ms-1"></small></label>
+            </span>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('fecha')">
+                {{hasError('fecha')}}
+            </span>
+        </div>
+    </div>
+    <div class="d-flex w-100">
+        <div class="d-flex flex-column pe-2 py-3 col-md-4">
+            <span class="p-float-label w-100">
+                <input autocomplete="off" formControlName="cancelado_bs" [(ngModel)]="body.cancelado_bs" [readonly]="!editable" id="cancelado_bs" class="input--standard w-100" type="number"  min="0"  pInputText> 
+                <label for="cancelado_bs">Cancelado en Bolivares<small class="required ms-1">*</small></label>
+            </span>
+        </div>
+        <div class="d-flex flex-column ps-2 py-3 col-md-4">
+            <span class="p-float-label w-100">
+                <input autocomplete="off" formControlName="cancelado_dollar" [(ngModel)]="body.cancelado_dollar" [readonly]="!editable" id="cancelado_dollar" class="input--standard w-100" type="number"  min="0"  pInputText> 
+                <label for="cancelado_dollar">Cancelado en Dollar<small class="required ms-1">*</small></label>
+            </span>
+        </div>
+    </div>
+    <div class="d-flex w-100">
+        <div class="d-flex flex-column pe-2 py-3 col columna w-50">
+            <label for="id_public_condominio">Condominio<small class="required ms-1">*</small></label>
+            <select [(ngModel)]="body.id_public_condominio" id="id_public_condominio" name="id_public_condominio" formControlName="id_public_condominio" class="input--standard" name="id_public_condominio" id="id_public_condominio">
+                <option [ngValue]="null">Seleccione condominio</option>
+                <option [ngValue]="item.id" *ngFor="let item of condominios">{{item.nombre}}</option>
+            </select>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('id_public_condominio')">
+                {{hasError('id_public_condominio')}}
+            </span>
+        </div>
+        <div class="d-flex flex-column ps-2 py-3 col-md-4 w-50">
+            <label for="status">Status<small class="required ms-1">*</small></label>
+            <select [(ngModel)]="body.status" id="status" name="status" formControlName="status" class="input--standard">
+                <option [ngValue]="null">Seleccione Status</option>
+                <option [hidden]="!body.id" value="Pagado">Pagado</option>
+                <option [hidden]="cache.status == 'Pagado' && body.id" value="Pendiente">Pendiente</option>
+            </select>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('status')">
+                {{hasError('status')}}
+            </span>
+        </div>
+    </div>
+    <div class="d-flex w-100 mt-4">
+        <div class="ms-auto"></div>
+        <div class="ms-md-2">
+            <button (click)="submit()" class="btn btn--standard">
+                <i class="fa fa-save me-2"></i>
+                Save
+            </button>
+        </div>
+    </div>
+</form>

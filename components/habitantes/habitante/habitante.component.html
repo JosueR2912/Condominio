@@ -1,0 +1,130 @@
+<form *ngIf="form" [formGroup]="form"  class="d-flex flex-column w-100 p-4 content--standard">
+    <div class="d-flex align-items-center w-100 mb-3">
+        <h1 *ngIf="!id" class="heading--desktop04">
+            Crear Habitante
+        </h1>
+        <h1 *ngIf="id" class="heading--desktop04">
+            Actualizar Habitante
+        </h1>
+        <div class="ms-auto">
+            <button class="btn btn--null" (click)="list()">
+                <i class="fa fa-list me-2"></i>
+                Lista
+            </button>
+        </div>
+    </div>
+    <div class="d-flex w-100">
+        <div class="d-flex flex-column pe-2 py-3 col-md-4">
+            <span class="p-float-label w-100">
+                <input autocomplete="off" required formControlName="nombre" [(ngModel)]="body.nombre" [readonly]="!editable" id="nombre" class="input--standard w-100" type="text" pInputText> 
+                <label for="nombre">Nombre<small class="required ms-1">*</small></label>
+            </span>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('nombre')">
+                {{hasError('nombre')}}
+            </span>
+        </div>
+        <div class="d-flex flex-column ps-2 py-3 col-md-4">
+            <span class="p-float-label w-100">
+                <input autocomplete="off" required formControlName="apellido" [(ngModel)]="body.apellido" [readonly]="!editable" id="apellido" class="input--standard w-100" type="text" pInputText> 
+                <label for="apellido">Apellido<small class="required ms-1">*</small></label>
+            </span>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('apellido')">
+                {{hasError('apellido')}}
+            </span>
+        </div>
+        <div class="d-flex flex-column ps-2 py-3 col-md-4 ms-3" style="width: 80px">
+            <select [(ngModel)]="body.tipo_cedula" id="tipo_cedula" name="tipo_cedula" formControlName="tipo_cedula" class="input--standard" name="tipo_cedula" id="tipo_cedula">
+                <option value="V">V</option>
+                <option value="E">E</option>
+            </select>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('tipo_cedula')">
+                {{hasError('tipo_cedula')}}
+            </span>
+        </div>
+        <div class="d-flex flex-column ps-2 py-3 col-md-3">
+            <span class="p-float-label w-100">
+                <input autocomplete="off" required formControlName="cedula" [readonly]="!editable" [(ngModel)]="body.cedula" id="cedula" class="input--standard w-100" type="number"  min="1" pattern="^[0-9]+" pInputText> 
+                <label for="cedula">Cedula<small class="required ms-1">*</small></label>
+            </span>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('cedula')">
+                {{hasError('cedula')}}
+            </span>
+        </div>
+    </div>
+    <div class="d-flex w-100">
+        <div class="d-flex flex-column py-3 col-1 ms-0" style="width: 120px">
+            <select [(ngModel)]="body.linea_telefono" id="linea_telefono" name="linea_telefono" formControlName="linea_telefono" class="input--standard" name="linea_telefono" id="linea_telefono">
+                <option [ngValue]="null">04--</option>
+                <option value="0424">0424</option>
+                <option value="0412">0412</option>
+                <option value="0251">0251</option>
+                <option value="0416">0416</option>
+                <option value="0426">0426</option>
+                <option value="0414">0414</option>
+            </select>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('linea_telefono')">
+                {{hasError('linea_telefono')}}
+            </span>
+        </div>
+        <div class="d-flex flex-column pe-2 py-3 col">
+            <span class="p-float-label w-100">
+                <input autocomplete="off" required formControlName="telefono" [readonly]="!editable" [(ngModel)]="body.telefono" id="telefono" class="input--standard w-100" type="number"  min="1" pattern="^[0-9]+"pInputText> 
+                <label for="telefono">Telefono<small class="required ms-1">*</small></label>
+            </span>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('telefono')">
+                {{hasError('telefono')}}
+            </span>
+        </div>
+        <div class="d-flex flex-column ps-2 py-3 col">
+            <span class="p-float-label w-100">
+                <input autocomplete="off" required formControlName="correo" [readonly]="!editable" [(ngModel)]="body.correo" name="correo" id="correo" class="input--standard w-100" type="email" pInputText> 
+                <label for="correo">Correo</label>
+            </span>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('correo')">
+                {{hasError('correo')}}
+            </span>
+        </div>
+        <div class="d-flex flex-column ps-2 py-3 col ms-3" style="width: 160px">
+            <select [(ngModel)]="body.status" id="status" name="status" formControlName="status" class="input--standard" name="status" id="status">
+                <option [ngValue]="null">Seleccione Status</option>
+                <option value="Propietario">Propietario</option>
+            </select>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('status')">
+                {{hasError('status')}}
+            </span>
+        </div>
+    </div>
+    <div class="d-flex w-100 align-items-center">
+        <div class="d-flex flex-column pe-2 py-3 col-md-4">
+            <span class="p-float-label w-100">
+                <input autocomplete="off" required formControlName="username" [readonly]="!editable" [(ngModel)]="body.username" id="username" class="input--standard w-100" type="text"  pInputText> 
+                <label for="username">Nombre de Usuario<small class="required ms-1">*</small></label>
+            </span>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('username')">
+                {{hasError('username')}}
+            </span>
+        </div>
+        <div class="d-flex flex-column pe-2 py-3 col-md-5">
+            <div class="d-flex w-100 align-items-center">
+                <span class="p-float-label w-100">
+                    <input autocomplete="off" required formControlName="password" [readonly]="!editable" [(ngModel)]="body.password" id="password" class="input--standard w-100" type="text"  pInputText> 
+                    <label for="password">Contraseña<small class="required ms-1">*</small></label>
+                </span>
+                <button class="btn btn-primary ms-2" style="width: 300px" (click)="generatePassword()">Generar contraseña</button>
+            </div>
+
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('password')">
+                {{hasError('password')}}
+            </span>
+        </div>
+    </div>
+    <div class="d-flex w-100 mt-4">
+        <div class="ms-auto"></div>
+        <div class="ms-md-2">
+            <button (click)="submit()" class="btn btn--standard">
+                <i class="fa fa-save me-2"></i>
+                Save
+            </button>
+        </div>
+    </div>
+</form>

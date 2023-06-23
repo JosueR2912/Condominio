@@ -1,0 +1,218 @@
+<div class="d-flex w-100 flex-column py-5" *ngIf="server.user?.tipo === 'operador'">
+    <div class="d-flex w-100">
+        <div class="d-flex col-7 px-3">
+            <select name="condominio" id="condominio" (change)="onChangeCondominio()" [(ngModel)]="condominio.id" class="form-control form-control-md w-100">
+                <option [ngValue]="0" *ngIf="!condominios.length">Seleccione condominio</option>
+                <option [ngValue]="item.id" *ngFor="let item of condominios">{{item.nombre}}</option>
+            </select>
+        </div>
+        <div class="d-flex col-5 px-3">
+            <div class="px-3 d-flex flex-column w-100">
+                <div class="d-flex w-100">
+                    <div class="w-50 text-center">
+                        $
+                    </div>
+                    <div class="w-50 text-center">
+                        Bs
+                    </div>
+                </div>
+                <div class="d-flex w-100">
+                    <div class="w-50 text-center">
+                        {{fondoReserva.monto_dollar}} $
+                    </div>
+                    <div class="w-50 text-center">
+                        {{fondoReserva.monto_bs}} Bs
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex w-100 mt-5">
+        <div class="d-flex col-7 px-3">
+            <p-table *ngIf="condominiosAndGastos?.length" [value]="condominiosAndGastos" class="w-100" 
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[5, 10, 20]" [rows]="5"
+            [paginator]="true">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th class="text--desktop02 text-center">
+                            <span class="p-float-label w-100">
+                                <label for="dni">Nombre </label>
+                            </span> 
+                        </th>
+                        <th class="text--desktop02 text-center">
+                            <span class="p-float-label w-100">
+                                <label for="dni">Monto($) </label>
+                            </span> 
+                        </th>
+                        <th class="text--desktop02 text-center">
+                            <span class="p-float-label w-100">
+                                <label for="dni">Fecha</label>
+                            </span> 
+                        </th>
+                        <th class="text--desktop02 text-center">
+                            <span class="p-float-label w-100">
+                                <label for="dni">Status</label>
+                            </span> 
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr>
+                        <td>
+                            <a>
+                                {{item.nombre}}
+                            </a>
+                        </td>
+                        <td>
+                            <a>
+                                {{item.monto}} $
+                            </a>
+                        </td>
+                        <td>
+                            <a>
+                                {{getFecha(item.fecha)}}
+                            </a>
+                        </td>
+                        <td>
+                            <a>
+                                {{item.status}}
+                            </a>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <div class="d-flex col-5 px-3">
+            <p-table *ngIf="habitantes?.length" [value]="habitantes" class="w-100" 
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[5, 10, 20]" [rows]="5"
+                [paginator]="true">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th class="text--desktop02 text-center">
+                                <span class="p-float-label w-100">
+                                    <label for="dni">Nombre </label>
+                                </span> 
+                            </th>
+                            <th class="text--desktop02 text-center">
+                                <span class="p-float-label w-100">
+                                    <label for="dni">Piso</label>
+                                </span> 
+                            </th>
+                            <th class="text--desktop02 text-center">
+                                <span class="p-float-label w-100">
+                                    <label for="dni">Numero</label>
+                                </span> 
+                            </th>
+                            <th class="text--desktop02 text-center">
+                                <span class="p-float-label w-100">
+                                    <label for="dni">Ultimo pago</label>
+                                </span> 
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-item>
+                        <tr>
+                            <td>
+                                <a>
+                                    {{item.nombre}} {{item.apellido}}
+                                </a>
+                            </td>
+                            <td>
+                                <a>
+                                    {{item.piso}}
+                                </a>
+                            </td>
+                            <td>
+                                <a>
+                                    {{item.numero}}
+                                </a>
+                            </td>
+                            <td>
+                                <a>
+                                    {{getFecha(item.ultimo_pago)}}
+                                </a>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+        </div>
+    </div>
+</div>
+<div class="d-flex w-100 flex-column py-5" *ngIf="server.user?.tipo === 'habitante'">
+    <div class="d-flex w-100">
+        <div class="d-flex flex-column col-7 px-3">
+            <h1 class="mb-2">
+                {{server.user?.nombre}} {{server.user?.apellido}}
+            </h1>
+            <h2 class="mb-2">
+                {{server.user?.tipo_cedula}} - {{server.user?.cedula}} 
+            </h2>
+            <h3>
+                {{server.user?.condominio}} ({{server.user?.numero}} - {{server.user?.piso}}) 
+            </h3>
+        </div>
+        <div class="d-flex col-5 px-3">
+            <div class="d-flex w-100 p-4 moroso my-auto" *ngIf="!ultimoPago">
+                <h4 class="my-0 mx-auto">
+                    Estado: Moroso
+                </h4>
+            </div>
+            <div class="d-flex w-100 p-4 aldia my-auto" *ngIf="ultimoPago">
+                <h4 class="my-0 mx-auto">
+                    Estado: Al día
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex w-100 mt-5">
+        <div class="d-flex col-7 px-3">
+            <p-table *ngIf="pagos?.length" [value]="pagos" class="w-100" 
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[5, 10, 20]" [rows]="5"
+            [paginator]="true">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th class="text--desktop02 text-center">
+                            <label for="dni">Monto(bs)</label>
+                        </th>
+                        <th class="text--desktop02 text-center">
+                            <label for="dni">Monto($)</label>
+                        </th>
+                        <th class="text--desktop02 text-center">
+                            <label for="dni">Fecha</label>
+                        </th>
+                        <th class="text--desktop02 text-center">
+                            <label for="dni">Concepto</label>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr>
+                        <td>
+                            <a>
+                                {{item.monto_bs}} Bs
+                            </a>
+                        </td>
+                        <td>
+                            <a>
+                                {{item.monto_dollar}} $
+                            </a>
+                        </td>
+                        <td>
+                            <a>
+                                {{getFecha(item.fecha)}}
+                            </a>
+                        </td>
+                        <td>
+                            <a>
+                                {{item.concepto}}
+                            </a>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

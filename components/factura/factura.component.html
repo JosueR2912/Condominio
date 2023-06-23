@@ -1,0 +1,251 @@
+<div style="max-width: 1000px;" class="d-flex w-100 flex-column m-auto py-2">
+    <div class="d-flex col-7 px-0 mb-4">
+        <select name="condominio" id="condominio" (change)="onChangeCondominio()" [(ngModel)]="condominio.id" class="form-control form-control-md w-100">
+            <option [ngValue]="0" *ngIf="!condominios.length">Seleccione condominio</option>
+            <option [ngValue]="item.id" *ngFor="let item of condominios">{{item.nombre}}</option>
+        </select>
+    </div>
+    <div class="d-flex flex-column w-100 mx-auto factura py-4 px-4">
+        <div class="d-flex w-100 p-3" *ngIf="server.user?.tipo === 'habitante'">
+            <h4 class="m-auto">
+                Relacion de gastos condominio
+            </h4>
+        </div>
+        <div class="d-flex w-100 p-3" *ngIf="server.user?.tipo === 'habitante'">
+            <div class="d-flex flex-column col">
+                <span>
+                    Propietario
+                </span>
+                <span>
+                    Apartamento
+                </span>
+            </div>
+            <div class="d-flex flex-column" style="width: 50%">
+                <div class="d-flex ps-3">
+                    {{server.user?.nombre}} {{server.user?.apellido}}
+                </div>
+                <div class="d-flex ps-3">
+                    {{server.user?.piso}} - {{server.user?.numero}}
+                </div>
+            </div>
+            <div class="d-flex flex-column col">
+                <span>
+                    Mes
+                </span>
+                <span>
+                    {{mes}}
+                </span>
+            </div>
+            <div class="d-flex flex-column col">
+                <span>
+                    Cuota
+                </span>
+                <span>
+                    $ {{cuota}}
+                </span>
+            </div>
+            <div class="d-flex flex-column col">
+                <span>
+                    %
+                </span>
+                <span>
+                    {{percentage}}
+                </span>
+            </div>
+        </div>
+        <div class="d-flex w-100 p-3" *ngIf="server.user?.tipo === 'habitante'">
+    
+        </div>
+        <div class="d-flex w-100 p-3">
+            <h4 class="mx-auto">
+                Gastos Comunes
+            </h4>
+        </div>
+        <div class="d-flex w-100 p-3">
+            <div class="d-flex col">
+                <span class="m-auto">
+                    Servicios
+                </span>
+            </div>
+            <div class="d-flex col">
+                <span class="m-auto">
+                    Monto Cancelados
+                </span>
+            </div>
+        </div>
+        <div class="d-flex w-100 p-3">
+            <div class="d-flex" style="width: 20%">
+                <span>
+                    Descripcion
+                </span>
+            </div>
+            <div class="d-flex" style="width: 20%">
+                <span>
+                    Costo $
+                </span>
+            </div>
+            <div class="d-flex" style="width: 20%">
+                <span>
+                    Monto $
+                </span>
+            </div>
+            <div class="d-flex" style="width: 20%">
+                <span>
+                    Monto Bs
+                </span>
+            </div>
+            <div class="d-flex" style="width: 20%">
+                <span>
+                    Fecha
+                </span>
+            </div>
+        </div>
+        <div class="d-flex w-100 p-3" *ngFor="let servicio of servicios">
+            <div class="d-flex" style="width: 20%">
+                <span>
+                    {{servicio.nombre}}
+                </span>
+            </div>
+            <div class="d-flex" style="width: 20%">
+                <span>
+                    {{servicio.monto}} $
+                </span>
+            </div>
+            <div class="d-flex" style="width: 20%">
+                <span>
+                    {{servicio.cancelado_dollar || 0}} $
+                </span>
+            </div>
+            <div class="d-flex" style="width: 20%">
+                <span>
+                    {{servicio.cancelado_bs || 0}} Bs
+                </span>
+            </div>
+            <div class="d-flex" style="width: 20%">
+                <span>
+                    {{getFecha(servicio.fecha)}}
+                </span>
+            </div>
+        </div>
+        <div class="d-flex w-100 p-3" *ngFor="let gasto of gastos">
+            <div class="d-flex" style="width: 20%">
+                <span>
+                    {{gasto.nombre}}
+                </span>
+            </div>
+            <div class="d-flex" style="width: 20%">
+                <span>
+                    {{gasto.monto}} $
+                </span>
+            </div>
+            <div class="d-flex" style="width: 20%">
+                <span>
+                    {{gasto.cancelado_dollar || 0}} $
+                </span>
+            </div>
+            <div class="d-flex" style="width: 20%">
+                <span>
+                    {{gasto.cancelado_bs || 0}} Bs
+                </span>
+            </div>
+            <div class="d-flex" style="width: 20%">
+                <span>
+                    {{getFecha(gasto.fecha)}}
+                </span>
+            </div>
+        </div>
+        <div class="d-flex w-100 p-3">
+            <div class="d-flex" style="width: 20%">
+                <span>
+                    <strong>
+                        Total:
+                    </strong>
+                </span>
+            </div>
+            <div class="d-flex" style="width: 20%">
+                <span>
+                    <strong>
+                        {{subtotalCosto$}} $
+                    </strong>
+                </span>
+            </div>
+            <div class="d-flex" style="width: 20%">
+                <span>
+                    <strong>
+                        {{subtotalCancelado$ || 0}} $
+                    </strong>
+                </span>
+            </div>
+            <div class="d-flex" style="width: 20%">
+                <span>
+                    <strong>
+                        {{subtotalCanceladoBs || 0}} Bs
+                    </strong>
+                </span>
+            </div>
+            <div class="d-flex" style="width: 20%">
+            </div>
+        </div>
+        <div class="d-flex w-100 p-3" *ngIf="movistar">
+            <div class="d-flex" style="width: 20%">
+                <span class="m-auto text-center">
+                    <strong>
+                        Cancelado por movistar:
+                    </strong>
+                </span>
+            </div>
+            <div class="d-flex" style="width: 20%">
+                <span>
+                    <strong>
+                        -
+                    </strong>
+                </span>
+            </div>
+            <div class="d-flex" style="width: 20%">
+                <span>
+                    <strong>
+                        {{movistar.monto_dollar}} $
+                    </strong>
+                </span>
+            </div>
+            <div class="d-flex" style="width: 20%">
+                <span>
+                    <strong>
+                        {{movistar.monto_bs}} Bs
+                    </strong>
+                </span>
+            </div>
+            <div class="d-flex" style="width: 20%">
+                <span>
+                    {{getFecha(movistar.fecha)}}
+                </span>
+            </div>
+        </div>
+        <div class="d-flex w-100 p-3">
+            <div class="d-flex" style="width: 50%">
+                <span>
+                    <strong>
+                        Cuenta en $:
+                    </strong>
+                </span>
+                <span>
+                    <strong>
+                        {{fondoReserva.monto_dollar | number: '1.2'}} $
+                    </strong>
+                </span>
+            </div>
+            <div class="d-flex" style="width: 50%">
+                <span>
+                    <strong>
+                       Cuenta en Bs:
+                    </strong>
+                </span>
+                <span>
+                    <strong>
+                        {{fondoReserva.monto_bs | number : '1.2'}} Bs
+                    </strong>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,146 @@
+<form *ngIf="form" [formGroup]="form"  class="d-flex flex-column w-100 p-4 content--standard">
+    <div class="d-flex align-items-center w-100 mb-3">
+        <h1 *ngIf="!id" class="heading--desktop04">
+            Crear Condominio
+        </h1>
+        <h1 *ngIf="id" class="heading--desktop04">
+            Actualizar Condominio
+        </h1>
+        <div class="ms-auto">
+            <button class="btn btn--null" (click)="list()">
+                <i class="fa fa-list me-2"></i>
+                Lista
+            </button>
+        </div>
+    </div>
+    <div class="d-flex flex-wrap w-100 fila">
+        <div class="d-flex flex-column pe-2 py-3 col columna">
+            <span class="p-float-label w-100">
+                <input autocomplete="off" required formControlName="nombre" [(ngModel)]="body.nombre" [readonly]="!editable" id="nombre" class="input--standard w-100" type="text" pInputText> 
+                <label for="nombre">Nombre<small class="required ms-1">*</small></label>
+            </span>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('nombre')">
+                {{hasError('nombre')}}
+            </span>
+        </div>
+        <div class="d-flex flex-column pe-2 py-3 col columna">
+            <span class="p-float-label w-100">
+                <input autocomplete="off" required formControlName="rif" [(ngModel)]="body.rif" [readonly]="!editable" id="rif" class="input--standard w-100" type="number"  min="1" pattern="^[0-9]+" pInputText> 
+                <label for="rif">Rif<small class="required ms-1">*</small></label>
+            </span>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('rif')">
+                {{hasError('rif')}}
+            </span>
+        </div>
+    </div>
+
+    <div class="d-flex flex-wrap w-100 fila">
+        <div class="d-flex flex-column pe-2 py-3 col columna">
+            <span class="p-float-label w-100">
+                <input autocomplete="off" required formControlName="cantidad_apartamento" [(ngModel)]="body.cantidad_apartamento" [readonly]="!editable" id="cantidad_apartamento" class="input--standard w-100" type="number"  min="1" pattern="^[0-9]+" pInputText> 
+                <label for="cantidad_apartamento">Cantidad de apartamentos<small class="required ms-1">*</small></label>
+            </span>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('cantidad_apartamento')">
+                {{hasError('cantidad_apartamento')}}
+            </span>
+        </div>
+        <div class="d-flex flex-column pe-2 py-3 col columna">
+            <span class="p-float-label w-100">
+                <input autocomplete="off" required formControlName="numero_pisos" [(ngModel)]="body.numero_pisos" [readonly]="!editable" id="numero_pisos" class="input--standard w-100" type="number"  min="1" pattern="^[0-9]+" pInputText> 
+                <label for="numero_pisos">Cantidad de pisos<small class="required ms-1">*</small></label>
+            </span>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('numero_pisos')">
+                {{hasError('numero_pisos')}}
+            </span>
+        </div>
+    </div>
+    
+    <div class="d-flex flex-wrap w-100 fila">
+        <div class="d-flex flex-column pe-2 py-3 col columna">
+            <label for="public_estado_id">Estado<small class="required ms-1">*</small></label>
+            <select [(ngModel)]="body.public_estado_id" id="public_estado_id" name="public_estado_id" formControlName="public_estado_id" class="input--standard" name="public_estado_id" id="public_estado_id">
+                <option [ngValue]="null">Seleccione estado</option>
+                <option [ngValue]="item.id" *ngFor="let item of estados">{{item.estado}}</option>
+            </select>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('public_estado_id')">
+                {{hasError('public_estado_id')}}
+            </span>
+        </div>
+        <div class="d-flex flex-column pe-2 py-3 col columna">
+            <label for="public_ciudad_id">Ciudad<small class="required ms-1">*</small></label>
+            <select [(ngModel)]="body.public_ciudad_id" id="public_ciudad_id" name="public_ciudad_id" formControlName="public_ciudad_id" class="input--standard" name="public_ciudad_id" id="public_ciudad_id">
+                <option [ngValue]="null">Seleccione ciudad</option>
+                <option [ngValue]="item.id" *ngFor="let item of _ciudades">{{item.ciudad}}</option>
+            </select>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('public_ciudad_id')">
+                {{hasError('public_ciudad_id')}}
+            </span>
+        </div>
+        <div class="d-flex flex-column pe-2 py-3 col columna">
+            <label for="public_municipio_id">Municipio<small class="required ms-1">*</small></label>
+            <select [(ngModel)]="body.public_municipio_id" id="public_municipio_id" name="public_municipio_id" formControlName="public_municipio_id" class="input--standard" name="public_municipio_id" id="public_municipio_id">
+                <option [ngValue]="null">Seleccione municipio</option>
+                <option [ngValue]="item.id" *ngFor="let item of _municipios">{{item.municipio}}</option>
+            </select>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('public_municipio_id')">
+                {{hasError('public_municipio_id')}}
+            </span>
+        </div>
+        <div class="d-flex flex-column pe-2 py-3 col columna">
+            <label for="public_parroquia_id">Parroquia<small class="required ms-1">*</small></label>
+            <select [(ngModel)]="body.public_parroquia_id" id="public_parroquia_id" name="public_parroquia_id" formControlName="public_parroquia_id" class="input--standard" name="public_parroquia_id" id="public_parroquia_id">
+                <option [ngValue]="null">Seleccione parroquia</option>
+                <option [ngValue]="item.id" *ngFor="let item of _parroquias">{{item.parroquia}}</option>
+            </select>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('public_parroquia_id')">
+                {{hasError('public_parroquia_id')}}
+            </span>
+        </div>
+    </div>
+
+    
+    <div class="d-flex flex-wrap w-100 fila">
+        <div class="d-flex flex-column pe-2 py-3 col columna">
+            <label for="rif">Fondo de reserva</label>
+            <select [(ngModel)]="body.id_public_fondo_reserva" id="id_public_fondo_reserva" name="id_public_fondo_reserva" formControlName="id_public_fondo_reserva" class="input--standard" name="id_public_fondo_reserva" id="id_public_fondo_reserva">
+                <option [ngValue]="null">Seleccione fondo de reserva</option>
+                <option [ngValue]="item.id" *ngFor="let item of reservas">{{item.monto_bs}}BS / {{item.monto_dollar}}$</option>
+            </select>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('id_public_fondo_reserva')">
+                {{hasError('id_public_fondo_reserva')}}
+            </span>
+        </div>
+        <!--<div class="d-flex flex-column pe-2 py-3 col columna">
+            <label for="id_public_users">Usuario</label>
+            <select [(ngModel)]="body.id_public_users" id="id_public_users" name="id_public_users" formControlName="id_public_users" class="input--standard" name="id_public_users" id="id_public_users">
+                <option [ngValue]="null">Seleccione usuario</option>
+                <option [ngValue]="item.id" *ngFor="let item of usuarios">{{item.username}}</option>
+            </select>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('id_public_users')">
+                {{hasError('id_public_users')}}
+            </span>
+        </div>-->
+    </div>
+
+    <div class="d-flex flex-wrap w-100 fila">
+        <div class="d-flex flex-column pe-2 py-3 col columna">
+            <span class="p-float-label w-100">
+                <input autocomplete="off" required formControlName="valor" [(ngModel)]="body.valor" [readonly]="!editable" id="valor" class="input--standard w-100" type="number" min="1" pattern="^[0-9]+" pInputText> 
+                <label for="valor">Valor del Condominio<small class="required ms-1">*</small></label>
+            </span>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('valor')">
+                {{hasError('valor')}}
+            </span>
+        </div>
+    </div>
+    
+    <div class="d-flex w-100 mt-4">
+        <div class="ms-auto"></div>
+        <div class="ms-md-2">
+            <button (click)="submit()" class="btn btn--standard">
+                <i class="fa fa-save me-2"></i>
+                Save
+            </button>
+        </div>
+    </div>
+</form>

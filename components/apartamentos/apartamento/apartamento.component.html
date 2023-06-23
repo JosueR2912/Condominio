@@ -1,0 +1,78 @@
+<form *ngIf="form" [formGroup]="form"  class="d-flex flex-column w-100 p-4 content--standard">
+    <div class="d-flex align-items-center w-100 mb-3">
+        <h1 *ngIf="!id" class="heading--desktop04">
+            Crear Apartamento
+        </h1>
+        <h1 *ngIf="id" class="heading--desktop04">
+            Actualizar Apartamento
+        </h1>
+        <div class="ms-auto">
+            <button class="btn btn--null" (click)="list()">
+                <i class="fa fa-list me-2"></i>
+                Lista
+            </button>
+        </div>
+    </div>
+    <div class="d-flex w-100 fila">
+        <div class="d-flex flex-column pe-2 py-3 col columna">
+            <label for="rif">Condominio<small class="required ms-1">*</small></label>
+            <select [(ngModel)]="body.id_public_condominio" id="id_public_condominio" name="id_public_condominio" formControlName="id_public_condominio" class="input--standard" name="id_public_condominio" id="id_public_condominio">
+                <option [ngValue]="null">Seleccione condominio</option>
+                <option [ngValue]="item.id" *ngFor="let item of condominios">{{item.nombre}}</option>
+            </select>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('id_public_condominio')">
+                {{hasError('id_public_condominio')}}
+            </span>
+        </div>
+    </div>
+    <div class="d-flex w-100">
+        <div class="d-flex flex-column pe-2 py-3 col-md-4">
+            <span class="p-float-label w-100">
+                <input autocomplete="off" required formControlName="numero" [(ngModel)]="body.numero" [readonly]="!editable" id="numero" class="input--standard w-100" type="number" min="1" pattern="^[0-9]+" pInputText> 
+                <label for="numero">Nùmero de Apartamento<small class="required ms-1">*</small></label>
+            </span>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('numero')">
+                {{hasError('numero')}}
+            </span>
+        </div>
+        <div class="d-flex flex-column ps-2 py-3 col-md-4">
+            <span class="p-float-label w-100">
+                <input autocomplete="off" required formControlName="piso" [(ngModel)]="body.piso" [readonly]="!editable" id="piso" class="input--standard w-100" type="number" min="1" pattern="^[0-9]+" pInputText> 
+                <label for="piso">Piso<small class="required ms-1">*</small></label>
+            </span>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('piso')">
+                {{hasError('piso')}}
+            </span>
+        </div>
+        <div class="d-flex flex-column ps-2 py-3 col-md-4">
+            <span class="p-float-label w-100">
+                <input autocomplete="off" required formControlName="valor" [(ngModel)]="body.valor" [readonly]="!editable" id="valor" class="input--standard w-100" type="number" min="1" pattern="^[0-9]+" pInputText> 
+                <label for="valor">valor<small class="required ms-1">*</small></label>
+            </span>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('valor')">
+                {{hasError('valor')}}
+            </span>
+        </div>
+    </div>
+    <div class="d-flex w-100 fila">
+        <div class="d-flex flex-column pe-2 py-3 col columna">
+            <label for="rif">Habitante<small class="required ms-1">*</small></label>
+            <select [(ngModel)]="body.id_public_habitante" id="id_public_habitante" name="id_public_habitante" formControlName="id_public_habitante" class="input--standard" name="id_public_habitante" id="id_public_habitante">
+                <option [ngValue]="null">Seleccione habitante</option>
+                <option [ngValue]="item.id" *ngFor="let item of habitantes">{{item.nombre}}</option>
+            </select>
+            <span class="text-danger semibold mt-1 ms-1" *ngIf="hasError('id_public_habitante')">
+                {{hasError('id_public_habitante')}}
+            </span>
+        </div>
+    </div>
+    <div class="d-flex w-100 mt-4">
+        <div class="ms-auto"></div>
+        <div class="ms-md-2">
+            <button (click)="submit()" class="btn btn--standard">
+                <i class="fa fa-save me-2"></i>
+                Save
+            </button>
+        </div>
+    </div>
+</form>

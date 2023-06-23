@@ -1,0 +1,41 @@
+<form *ngIf="form" [formGroup]="form"  class="d-flex flex-column w-100 p-4 content--standard">
+    <div class="d-flex align-items-center w-100 mb-3">
+        <h1 *ngIf="!id" class="heading--desktop04">
+            Crear Fondo de reserva
+        </h1>
+        <h1 *ngIf="id" class="heading--desktop04">
+            Ver Fondo de reserva
+        </h1>
+        <div class="ms-auto">
+            <button class="btn btn--null" (click)="list()">
+                <i class="fa fa-list me-2"></i>
+                Lista
+            </button>
+        </div>
+    </div>
+    <div class="d-flex w-100">
+        <div class="d-flex flex-column ps-2 py-3 col-md-4">
+            <span class="p-float-label w-100">
+                <input autocomplete="off" required formControlName="monto_bs" [(ngModel)]="body.monto_bs" [readonly]="!editable" id="monto_bs" class="input--standard w-100" type="number"  min="0" pInputText> 
+                <label for="monto_bs">Monto(BS)<small class="required ms-1">*</small></label>
+            </span>
+        </div>
+    </div>
+    <div class="d-flex w-100">
+        <div class="d-flex flex-column ps-2 py-3 col-md-4">
+            <span class="p-float-label w-100">
+                <input autocomplete="off" required formControlName="monto_dollar" [(ngModel)]="body.monto_dollar" [readonly]="!editable" id="monto_dollar" class="input--standard w-100" type="number"  min="0" pInputText> 
+                <label for="monto_dollar">Monto($)<small class="required ms-1">*</small></label>
+            </span>
+        </div>
+    </div>
+    <div class="d-flex w-100 mt-4">
+        <div class="ms-auto"></div>
+        <div class="ms-md-2">
+            <button *ngIf="!id" (click)="submit()" class="btn btn--standard">
+                <i class="fa fa-save me-2"></i>
+                Save
+            </button>
+        </div>
+    </div>
+</form>
